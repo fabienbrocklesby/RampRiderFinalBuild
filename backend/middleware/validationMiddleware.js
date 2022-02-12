@@ -35,7 +35,12 @@ const loginSchema = Joi.object({
         .required(),
 });
 
+const updateSchema = Joi.object({
+    password: passwordComplexity(complexityOptions).required(),
+});
+
 module.exports = {
     registerSchema,
     loginSchema,
+    updateSchema,
 }
