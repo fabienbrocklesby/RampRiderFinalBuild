@@ -2,16 +2,15 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 
+const { registerSchema, loginSchema } = require('../middleware/validationMiddleware');
+
 const User = require('../models/userModel');
 
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
-        res.status(400)
-        throw new Error('Please provide all required fields')
-    }
-
+    await registerSchema.validateAsync(req.body);
+    
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -44,6 +43,8 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const {email, password} = req.body;
 
+    await loginSchema.validateAsync(req.body);
+
     const user = await User.findOne({email});
 
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -56,6 +57,28 @@ const loginUser = asyncHandler(async (req, res) => {
     } else {
         res.status(400);
         throw new Error('Invalid credentials');
+    }
+});
+
+const forgotPassword = asyncHandler(async (req, res) => {
+    const {email} = req.body;
+
+    const user = await User.findOne({email});
+
+    if (user) {
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: '30d',
+        });
+
+        user.forgotPasswordToken = token;
+        user.save();
+
+        res.status(200).json({
+            message: 'Token has been sent to your email',
+        });
+    } else {
+        res.status(400);
+        throw new Error('User does not exist');
     }
 });
 
@@ -78,5 +101,6 @@ const generateToken = (id) => {
 module.exports = {
     registerUser,
     loginUser,
+    forgotPassword,
     getMe,
 }
