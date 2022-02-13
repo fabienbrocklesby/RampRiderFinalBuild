@@ -39,6 +39,7 @@ const updateSchema = Joi.object({
     password: passwordComplexity(complexityOptions).required(),
 });
 
+
 const skateparkSchema = Joi.object({
     name: Joi.string().max(40).required(),
     size: Joi.string().min(4).max(7).required(),
@@ -47,9 +48,16 @@ const skateparkSchema = Joi.object({
     location: Joi.string().required(),
 });
 
+const reviewSchema = Joi.object({
+    title: Joi.string().max(40).required(),
+    body: Joi.string().min(10).max(240).required(),
+    rating: Joi.number().required(),
+});
+
 module.exports = {
     registerSchema,
     loginSchema,
     updateSchema,
     skateparkSchema,
+    reviewSchema,
 }

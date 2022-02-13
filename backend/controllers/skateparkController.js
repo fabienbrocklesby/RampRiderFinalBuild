@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 
 const Skatepark = require('../models/skateparkModel');
 const Like = require('../models/likesModel');
+const Review = require('../models/reviewModel');
 
 const { skateparkSchema } = require('../middleware/validationMiddleware');
 
@@ -14,10 +15,12 @@ const getSkateparks = asyncHandler(async (req, res, next) => {
 const getSkatepark = asyncHandler(async(req, res, next) => {
     const skatepark = await Skatepark.findById(req.params.id);
     const likeCount = await Like.countDocuments({ post_id: req.params.id });
+    const reviews = await Review.find({ post_id: req.params.id });
 
     res.status(200).json({
         'info': skatepark,
-        'likes': likeCount
+        'likes': likeCount,
+        'reviews': reviews
     });
 });
 
