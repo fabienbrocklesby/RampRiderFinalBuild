@@ -11,6 +11,56 @@ const getSkateparks = asyncHandler(async (req, res, next) => {
     res.status(200).json(skateparks);
 });
 
+const getSkatepark = asyncHandler(async(req, res, next) => {
+    const skatepark = await Skatepark.findById(req.params.id);
+    const likeCount = await Like.countDocuments({ post_id: req.params.id });
+
+    res.status(200).json({
+        'info': skatepark,
+        'likes': likeCount
+    });
+});
+
+const mostLikedSkatepark = asyncHandler(async (req, res, next) => {
+    const likes = await Like.find();
+    const justIds = likes.map(like => like.post_id);
+
+    let mf = 1;
+    let m = 0;
+    let item;
+
+    for (var i = 0; i < justIds.length; i++) {
+        for (var j = i; j < justIds.length; j++) {
+          if (justIds[i] == justIds[j]) m++;
+          if (mf < m) {
+            mf = m;
+            item = justIds[i];
+          }
+        }
+      
+        m = 0;
+    }
+
+    const skatepark = await Skatepark.findById(item);
+
+    if (skatepark == null) {
+        res.status(404).json({
+            'message': 'Its a draw',
+        });
+    }
+
+    res.status(200).json(skatepark);
+});
+
+const locationSkatepark = asyncHandler(async (req, res) => {
+    const { location } = req.body;
+    const skateparks = await Skatepark.find();
+
+    const skatepark = skateparks.filter(skatepark => skatepark.location == location);
+
+    res.status(200).json(skatepark);
+});
+
 const createSkatepark = asyncHandler(async (req, res) => {
     const { name, size, description, location, image } = req.body;
 
@@ -65,6 +115,9 @@ const likeSkatepark = asyncHandler(async (req, res) => {
 
 module.exports = {
     getSkateparks,
+    getSkatepark,
     createSkatepark,
+    mostLikedSkatepark,
+    locationSkatepark,
     likeSkatepark,
 }
