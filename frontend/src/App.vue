@@ -2,7 +2,13 @@
   <div id="app">
     <!-- <GetSkateparks /> -->
     <!--  <RegisterForm /> -->
-    <LoginForm />
+    <!-- <ForgotPassword /> -->
+    <!--  <UpdatePassword /> -->
+    <!-- <GetMe /> -->
+    <GetSkatepark @postId="setPostId($event)"/>
+    <CreateReview :postData="this.postId" />
+    <AddSkatepark style="padding-top: 100px" />
+    <LoginForm style="padding-top: 100px" />
   </div>
 </template>
 
@@ -10,13 +16,35 @@
 // import GetSkateparks from './components/GetSkateparks.vue';
 // import RegisterForm from './components/RegisterForm.vue';
 import LoginForm from './components/LoginForm.vue';
+// import ForgotPassword from './components/ForgotPassword.vue';
+// import UpdatePassword from './components/UpdatePassword.vue';
+// import GetMe from './components/GetMe.vue';
+import AddSkatepark from './components/AddSkatepark.vue';
+import GetSkatepark from './components/GetSkatepark.vue';
+import CreateReview from './components/CreateReview.vue';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      postId: '',
+    }
+  },
   components: {
     // GetSkateparks,
     // RegisterForm,
-    LoginForm
+    LoginForm,
+    // ForgotPassword,
+    // UpdatePassword,
+    // GetMe,
+    AddSkatepark,
+    GetSkatepark,
+    CreateReview,
+  },
+  methods: {
+    setPostId(postId) {
+      this.postId = postId;
+    }
   }
 }
 </script>

@@ -10,6 +10,7 @@ const {
   mostLikedSkatepark,
   locationSkatepark,
   likeSkatepark,
+  checkLikedSkatepark,
 } = require('../controllers/skateparkController');
 
 router.get('/', getSkateparks);
@@ -18,5 +19,6 @@ router.get('/mostliked', mostLikedSkatepark);
 router.post('/location', locationSkatepark);
 router.post('/', protect, createSkatepark);
 router.post('/like/:post_id', protect, likeSkatepark);
+router.get('/checklike/:post_id', protect, checkLikedSkatepark);
 
 module.exports = router;

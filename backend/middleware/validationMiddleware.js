@@ -37,20 +37,21 @@ const loginSchema = Joi.object({
 
 const updateSchema = Joi.object({
   password: passwordComplexity(complexityOptions).required(),
+  resetToken: Joi.string(),
 });
 
 const skateparkSchema = Joi.object({
   name: Joi.string().max(40).required(),
   size: Joi.string().min(4).max(7).required(),
   description: Joi.string().required(),
-  image: Joi.string().required(),
   location: Joi.string().required(),
+  image: Joi.string().required(),
 });
 
 const reviewSchema = Joi.object({
   title: Joi.string().max(40).required(),
   body: Joi.string().min(10).max(240).required(),
-  rating: Joi.number().required(),
+  rating: Joi.number().min(1).max(5).required(),
 });
 
 module.exports = {

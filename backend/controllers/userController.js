@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
+const shortid = require('shortid');
 const User = require('../models/userModel');
 const { registerSchema, loginSchema, updateSchema } = require('../middleware/validationMiddleware');
 
@@ -72,9 +73,7 @@ const forgotPassword = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user) {
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '30d',
-    });
+    const token = shortid.generate();
 
     user.forgotPasswordToken = token;
     user.save();
@@ -106,12 +105,15 @@ const forgotPassword = async (req, res) => {
 };
 
 const updatePassword = async (req, res) => {
-  const { accessToken } = req.params;
-  const { password } = req.body;
+  const { password, resetToken } = req.body;
 
   await updateSchema.validateAsync(req.body);
 
-  const user = await User.findOne({ forgotPasswordToken: accessToken });
+  const user = await User.findOne({ forgotPasswordToken: resetToken });
+
+  if (!user) {
+    res.status(400).json({ message: 'Invalid token' });
+  }
 
   if (user) {
     const salt = await bcrypt.genSalt(10);
@@ -140,10 +142,27 @@ const getMe = async (req, res) => {
   });
 };
 
+const getId = async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findById(id);
+
+  if (user) {
+    res.status(200).json({
+      id: user._id,
+      name: user.name,
+    });
+  } else {
+    res.status(400);
+    throw new Error('User does not exist');
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   forgotPassword,
   updatePassword,
   getMe,
+  getId,
 };

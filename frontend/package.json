@@ -10,6 +10,8 @@
   "dependencies": {
     "axios": "^0.26.0",
     "core-js": "^3.6.5",
+    "imagekit": "^3.2.4",
+    "imagekitio-vue": "^1.0.9",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0"
   },

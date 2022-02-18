@@ -5,13 +5,14 @@
                 <label for="email">Email:</label><br>
                 <input id="email" type="email" v-model="email" required/>
             </div>
-            <div>
-                <label for="password">Password</label><br>
-                <input id="password" type="password" v-model="password" required/>
-            </div>
 
-            <button type="submit">Login</button>
+            <button type="submit">Send Request</button>
+
         </form>
+
+        <div v-if="response">
+            <p>{{ response.data.message }}</p>
+        </div>
     </div>
 </template>
 
@@ -24,21 +25,20 @@
             posts: [],
             errors: [],
             email: '',
-            password: '',
+            response: '',
         }
     },
     methods: {
         submitForm() {
             axios({
                 method: 'post', 
-                url: 'http://localhost:5000/api/users/login',
+                url: 'http://localhost:5000/api/users/forgot',
                 data:{
                     email: this.email,
-                    password: this.password,
                 },
             }).then(response => {
-                console.log('response:', response);
-                localStorage.setItem("authToken", response.data.token);
+                console.log(response)
+                this.response = response;
             }).catch(e => {
                 this.errors.push(e)
             })

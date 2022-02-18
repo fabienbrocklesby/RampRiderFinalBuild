@@ -1,5 +1,4 @@
 /* eslint-disable no-plusplus */
-const asyncHandler = require('express-async-handler');
 
 const Skatepark = require('../models/skateparkModel');
 const Like = require('../models/likesModel');
@@ -7,13 +6,13 @@ const Review = require('../models/reviewModel');
 
 const { skateparkSchema } = require('../middleware/validationMiddleware');
 
-const getSkateparks = asyncHandler(async (req, res) => {
+const getSkateparks = async (req, res) => {
   const skateparks = await Skatepark.find();
 
   res.status(200).json(skateparks);
-});
+};
 
-const getSkatepark = asyncHandler(async (req, res) => {
+const getSkatepark = async (req, res) => {
   const skatepark = await Skatepark.findById(req.params.id);
   const likeCount = await Like.countDocuments({ post_id: req.params.id });
   const reviews = await Review.find({ post_id: req.params.id });
@@ -23,9 +22,9 @@ const getSkatepark = asyncHandler(async (req, res) => {
     likes: likeCount,
     reviews,
   });
-});
+};
 
-const mostLikedSkatepark = asyncHandler(async (req, res) => {
+const mostLikedSkatepark = async (req, res) => {
   const likes = await Like.find();
   const justIds = likes.map((like) => like.post_id);
 
@@ -54,18 +53,18 @@ const mostLikedSkatepark = asyncHandler(async (req, res) => {
   }
 
   res.status(200).json(skatepark);
-});
+};
 
-const locationSkatepark = asyncHandler(async (req, res) => {
+const locationSkatepark = async (req, res) => {
   const { location } = req.body;
   const skateparks = await Skatepark.find();
 
   const skatepark = skateparks.filter((item) => item.location === location);
 
   res.status(200).json(skatepark);
-});
+};
 
-const createSkatepark = asyncHandler(async (req, res) => {
+const createSkatepark = async (req, res) => {
   const {
     name, size, description, location, image,
   } = req.body;
@@ -96,9 +95,9 @@ const createSkatepark = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Invalid skatepark data');
   }
-});
+};
 
-const likeSkatepark = asyncHandler(async (req, res) => {
+const likeSkatepark = async (req, res) => {
   const { post_id } = req.params;
 
   const liked = await Like.find({ post_id, user_id: req.user._id });
@@ -116,7 +115,21 @@ const likeSkatepark = asyncHandler(async (req, res) => {
   res.status(201).json({
     message: 'You have liked this skatepark',
   });
-});
+};
+
+const checkLikedSkatepark = async (req, res) => {
+  const { post_id } = req.params;
+
+  const liked = await Like.find({ post_id, user_id: req.user._id });
+
+  if (liked.length > 0) {
+    res.status(200);
+    res.json({ liked: true });
+  } else {
+    res.status(200);
+    res.json({ liked: false });
+  }
+};
 
 module.exports = {
   getSkateparks,
@@ -125,4 +138,5 @@ module.exports = {
   mostLikedSkatepark,
   locationSkatepark,
   likeSkatepark,
+  checkLikedSkatepark,
 };
