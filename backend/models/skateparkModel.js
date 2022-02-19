@@ -27,6 +27,14 @@ const skateparkSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add a user_id'],
     },
+    directions: {
+      type: String,
+      required: [true, 'Please add directions'],
+    },
+    category: {
+      type: String,
+      required: [true, 'Please add a category'],
+    },
   },
   {
     timestamps: true,

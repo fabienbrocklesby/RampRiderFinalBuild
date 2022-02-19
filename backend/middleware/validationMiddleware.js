@@ -46,6 +46,8 @@ const skateparkSchema = Joi.object({
   description: Joi.string().required(),
   location: Joi.string().required(),
   image: Joi.string().required(),
+  directions: Joi.string().required(),
+  category: Joi.string().min(5).max(10).required(),
 });
 
 const reviewSchema = Joi.object({

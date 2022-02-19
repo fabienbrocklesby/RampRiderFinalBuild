@@ -1,9 +1,6 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
+import './plugins/axios';
+import { createApp } from 'vue';
+import App from './App.vue';
+import './assets/tailwind.css';
 
-import dotenv from 'dotenv'
-
-dotenv.config()
-
-createApp(App).mount('#app')
+createApp(App).mount('#app');

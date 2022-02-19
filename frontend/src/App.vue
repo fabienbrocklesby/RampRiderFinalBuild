@@ -1,61 +1,36 @@
 <template>
-  <div id="app">
-    <!-- <GetSkateparks /> -->
-    <!--  <RegisterForm /> -->
-    <!-- <ForgotPassword /> -->
-    <!--  <UpdatePassword /> -->
-    <!-- <GetMe /> -->
-    <GetSkatepark @postId="setPostId($event)"/>
-    <CreateReview :postData="this.postId" />
-    <AddSkatepark style="padding-top: 100px" />
-    <LoginForm style="padding-top: 100px" />
-  </div>
+  <Navbar @SetPage="SetPage($event)" />
+  <LandingPage v-if="openTab == 'LandingPage'" />
+  <RegisterPage v-if="openTab == 'RegisterPage'" />
+  <LoginPage v-if="openTab == 'LoginPage'" />
 </template>
 
 <script>
-// import GetSkateparks from './components/GetSkateparks.vue';
-// import RegisterForm from './components/RegisterForm.vue';
-import LoginForm from './components/LoginForm.vue';
-// import ForgotPassword from './components/ForgotPassword.vue';
-// import UpdatePassword from './components/UpdatePassword.vue';
-// import GetMe from './components/GetMe.vue';
-import AddSkatepark from './components/AddSkatepark.vue';
-import GetSkatepark from './components/GetSkatepark.vue';
-import CreateReview from './components/CreateReview.vue';
+import Navbar from './components/Navbar.vue';
+import LandingPage from './components/LandingPage.vue';
+import RegisterPage from './components/RegisterPage.vue';
+import LoginPage from './components/LoginPage.vue';
 
 export default {
   name: 'App',
   data() {
     return {
-      postId: '',
-    }
+      openTab: 'LandingPage',
+    };
   },
   components: {
-    // GetSkateparks,
-    // RegisterForm,
-    LoginForm,
-    // ForgotPassword,
-    // UpdatePassword,
-    // GetMe,
-    AddSkatepark,
-    GetSkatepark,
-    CreateReview,
+    Navbar,
+    LandingPage,
+    RegisterPage,
+    LoginPage,
   },
   methods: {
-    setPostId(postId) {
-      this.postId = postId;
-    }
-  }
-}
+    SetPage(page) {
+      this.openTab = page;
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>

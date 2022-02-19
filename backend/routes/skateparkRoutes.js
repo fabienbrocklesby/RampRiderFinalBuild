@@ -7,7 +7,6 @@ const {
   createSkatepark,
   getSkateparks,
   getSkatepark,
-  mostLikedSkatepark,
   locationSkatepark,
   likeSkatepark,
   checkLikedSkatepark,
@@ -15,7 +14,6 @@ const {
 
 router.get('/', getSkateparks);
 router.get('/single/:id', getSkatepark);
-router.get('/mostliked', mostLikedSkatepark);
 router.post('/location', locationSkatepark);
 router.post('/', protect, createSkatepark);
 router.post('/like/:post_id', protect, likeSkatepark);
