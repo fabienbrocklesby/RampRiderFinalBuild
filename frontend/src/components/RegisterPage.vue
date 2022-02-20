@@ -69,7 +69,7 @@
                 this.$emit('SetPage', page);
             },
             submitForm() {
-                axios.post('/api/users', this.formData)
+                axios.post('http://192.168.1.19:5000/api/users', this.formData)
                     .then((response) => {
                         console.log(response);
                         this.response = 'User created successfully';

@@ -17,5 +17,7 @@ module.exports = {
     'indent': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-mixed-spaces-and-tabs': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'import/extensions': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-underscore-dangle': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-plusplus': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
 };

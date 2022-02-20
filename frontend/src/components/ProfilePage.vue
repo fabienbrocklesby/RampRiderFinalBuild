@@ -47,7 +47,7 @@
             },
         },
         async created() {
-            await axios.get('/api/users/me', {
+            await axios.get('http://192.168.1.19:5000/api/users/me', {
                 headers: {
                     Authorization: `Bearer ${window.localStorage.authToken}`,
                 },
