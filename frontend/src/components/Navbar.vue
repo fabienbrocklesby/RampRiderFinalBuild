@@ -16,14 +16,19 @@
     </div>
     <nav :class="isOpen ? 'block' : 'hidden'" class="px-2 pt-2 pb-4 sm:flex sm:p-0">
         <a href="#" @click="SetPage('LandingPage')" class="block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800">Home</a>
-        <a href="#" @click="SetPage('RegisterPage')" class="block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800">Create An Account</a>
-        <a href="#" @click="SetPage('LoginPage')" class="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2">Log In</a>
+        <a href="#" @click="SetPage('GetSkateparksPage')" class="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2">Find Skateparks / Spots</a>
+        <a v-if="IsLoggedIn === false" href="#" @click="SetPage('RegisterPage')" class="block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800">Create An Account</a>
+        <a v-if="IsLoggedIn === false" href="#" @click="SetPage('LoginPage')" class="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2">Log In</a>
+        <div v-if="IsLoggedIn === true">
+          <a href="#" @click="SetPage('ProfilePage')" class="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2">My Profile</a>
+        </div>
     </nav>
   </header>
 </template>
 
 <script>
 export default {
+  props: ['IsLoggedIn'],
   data() {
     return {
       isOpen: false,

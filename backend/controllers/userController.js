@@ -56,13 +56,17 @@ const loginUser = async (req, res) => {
   if (user && (await bcrypt.compare(password, user.password))) {
     res.status(201)
       .json({
+        message: 'User has been logged in',
         _id: user.id,
         name: user.name,
         email: user.email,
         token,
       });
   } else {
-    res.status(400);
+    res.status(400)
+      .json({
+        message: 'Invalid credentials',
+      });
     throw new Error('Invalid credentials');
   }
 };
@@ -99,7 +103,9 @@ const forgotPassword = async (req, res) => {
       message: 'Token has been sent to your email',
     });
   } else {
-    res.status(400);
+    res.status(400).json({
+      message: 'No user found',
+    });
     throw new Error('User does not exist');
   }
 };
