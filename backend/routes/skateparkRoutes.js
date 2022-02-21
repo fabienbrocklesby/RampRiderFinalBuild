@@ -8,6 +8,7 @@ const {
   getSkateparks,
   getSkatepark,
   locationSkatepark,
+  categorySkatepark,
   likeSkatepark,
   checkLikedSkatepark,
 } = require('../controllers/skateparkController');
@@ -15,6 +16,7 @@ const {
 router.get('/', getSkateparks);
 router.get('/single/:id', getSkatepark);
 router.post('/location', locationSkatepark);
+router.get('/category/:category', categorySkatepark);
 router.post('/', protect, createSkatepark);
 router.post('/like/:post_id', protect, likeSkatepark);
 router.get('/checklike/:post_id', protect, checkLikedSkatepark);

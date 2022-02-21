@@ -33,6 +33,15 @@ const locationSkatepark = async (req, res) => {
   res.status(200).json(skatepark);
 };
 
+const categorySkatepark = async (req, res) => {
+    const { category } = req.params;
+    const skateparks = await Skatepark.find();
+
+    const skatepark = skateparks.filter((item) => item.category === category);
+
+    res.status(200).json(skatepark);
+};
+
 const createSkatepark = async (req, res) => {
   const {
     name, size, description, location, image, directions, category,
@@ -112,6 +121,7 @@ module.exports = {
   getSkatepark,
   createSkatepark,
   locationSkatepark,
+  categorySkatepark,
   likeSkatepark,
   checkLikedSkatepark,
 };

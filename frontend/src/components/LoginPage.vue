@@ -79,6 +79,7 @@
                         if (response.data.message === 'User has been logged in') {
                             localStorage.setItem('authToken', response.data.token);
                             this.$emit('IsLoggedIn', true);
+                            this.$emit('SetPage', 'GetSkateparksPage');
                         } else {
                             console.log(this.response);
                         }

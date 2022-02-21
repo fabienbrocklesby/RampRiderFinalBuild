@@ -19,5 +19,6 @@ module.exports = {
     'import/extensions': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-underscore-dangle': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-plusplus': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'new-parens': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
 };

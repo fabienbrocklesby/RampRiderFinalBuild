@@ -22,6 +22,10 @@ const reviewSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add a user_id'],
     },
+    username: {
+      type: String,
+      required: [true, 'Please add a username'],
+    },
   },
   {
     timestamps: true,

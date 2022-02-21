@@ -14,6 +14,7 @@ const createReview = async (req, res) => {
     rating,
     post_id,
     user_id: req.user.id,
+    username: req.user.name,
   });
 
   if (review) {

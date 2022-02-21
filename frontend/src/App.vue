@@ -6,8 +6,9 @@
   <ForgotPasswordPage v-if="openTab == 'ForgotPasswordPage'" @SetPage='SetPage($event)' />
   <UpdatePasswordPage v-if="openTab == 'UpdatePasswordPage'" @SetPage='SetPage($event)' />
   <ProfilePage v-if="openTab == 'ProfilePage'" @SetPage='SetPage($event)' @Logout='IsLoggedIn()' />
-  <GetSkateparksPage v-if="openTab == 'GetSkateparksPage'" @SetPage='SetPage($event)' @FindMore="FindSkateparkById($event)"/>
+  <GetSkateparksPage v-if="openTab == 'GetSkateparksPage'" @SetPage='SetPage($event)' @FindMore="FindSkateparkById($event)" :IsLoggedIn='this.isLoggedIn'/>
   <GetSkateparkPage v-if="openTab == 'GetSkateparkPage'" @SetPage='SetPage($event)' :id="this.postId"/>
+  <AddSkateparkPage v-if="openTab == 'AddSkateparkPage'" @SetPage='SetPage($event)' @IsLoggedIn='IsLoggedIn()'/>
 </template>
 
 <script>
@@ -20,6 +21,7 @@ import UpdatePasswordPage from './components/UpdatePasswordPage.vue';
 import ProfilePage from './components/ProfilePage.vue';
 import GetSkateparksPage from './components/GetSkateparksPage.vue';
 import GetSkateparkPage from './components/GetSkateparkPage.vue';
+import AddSkateparkPage from './components/AddSkateparkPage.vue';
 
 export default {
   name: 'App',
@@ -40,6 +42,7 @@ export default {
     ProfilePage,
     GetSkateparksPage,
     GetSkateparkPage,
+    AddSkateparkPage,
   },
   methods: {
     SetPage(page) {
