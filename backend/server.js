@@ -18,7 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
-app.use('/', express.static(path.join(__dirname, '../frontend/dist')));
+app.use('/', express.static(path.join(__dirname, '../frontend/dist/')));
+app.use('/dist', express.static(path.join(__dirname, '../landingpage/dist')));
 
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/skateparks', require('./routes/skateparkRoutes'));

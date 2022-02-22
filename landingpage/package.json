@@ -1,26 +1,19 @@
 {
-  "name": "frontend",
+  "name": "landingpage",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 3000",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@tailwindcss/postcss7-compat": "^2.2.17",
-    "autoprefixer": "^9",
-    "axios": "^0.18.1",
     "core-js": "^3.6.5",
-    "postcss": "^7",
-    "register-service-worker": "^1.7.1",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
     "vue": "^3.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.15",
     "@vue/cli-plugin-eslint": "~4.5.15",
-    "@vue/cli-plugin-pwa": "^4.5.15",
     "@vue/cli-service": "~4.5.15",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-airbnb": "^5.0.2",
@@ -29,8 +22,6 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.26.5",
-    "sass-loader": "^8.0.2",
-    "vue-cli-plugin-axios": "0.0.4",
-    "vue-cli-plugin-tailwind": "~2.2.18"
+    "sass-loader": "^8.0.2"
   }
 }

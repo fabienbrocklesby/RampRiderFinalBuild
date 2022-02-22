@@ -1,14 +1,16 @@
 <template>
-  <Navbar @SetPage='SetPage($event)' :IsLoggedIn='this.isLoggedIn'/>
-  <LandingPage v-if="openTab == 'LandingPage'" />
-  <RegisterPage v-if="openTab == 'RegisterPage'" @SetPage='SetPage($event)' />
-  <LoginPage v-if="openTab == 'LoginPage'" @IsLoggedIn='IsLoggedIn()' @SetPage='SetPage($event)'/>
-  <ForgotPasswordPage v-if="openTab == 'ForgotPasswordPage'" @SetPage='SetPage($event)' />
-  <UpdatePasswordPage v-if="openTab == 'UpdatePasswordPage'" @SetPage='SetPage($event)' />
-  <ProfilePage v-if="openTab == 'ProfilePage'" @SetPage='SetPage($event)' @Logout='IsLoggedIn()' />
-  <GetSkateparksPage v-if="openTab == 'GetSkateparksPage'" @SetPage='SetPage($event)' @FindMore="FindSkateparkById($event)" :IsLoggedIn='this.isLoggedIn'/>
-  <GetSkateparkPage v-if="openTab == 'GetSkateparkPage'" @SetPage='SetPage($event)' :id="this.postId"/>
-  <AddSkateparkPage v-if="openTab == 'AddSkateparkPage'" @SetPage='SetPage($event)' @IsLoggedIn='IsLoggedIn()'/>
+  <div class="page">
+    <Navbar @SetPage='SetPage($event)' :IsLoggedIn='this.isLoggedIn'/>
+    <LandingPage v-if="openTab == 'LandingPage'" />
+    <RegisterPage v-if="openTab == 'RegisterPage'" @SetPage='SetPage($event)' />
+    <LoginPage v-if="openTab == 'LoginPage'" @IsLoggedIn='IsLoggedIn()' @SetPage='SetPage($event)'/>
+    <ForgotPasswordPage v-if="openTab == 'ForgotPasswordPage'" @SetPage='SetPage($event)' />
+    <UpdatePasswordPage v-if="openTab == 'UpdatePasswordPage'" @SetPage='SetPage($event)' />
+    <ProfilePage v-if="openTab == 'ProfilePage'" @SetPage='SetPage($event)' @Logout='IsLoggedIn()' />
+    <GetSkateparksPage v-if="openTab == 'GetSkateparksPage'" @SetPage='SetPage($event)' @FindMore="FindSkateparkById($event)" :IsLoggedIn='this.isLoggedIn'/>
+    <GetSkateparkPage v-if="openTab == 'GetSkateparkPage'" @SetPage='SetPage($event)' :id="this.postId"/>
+    <AddSkateparkPage v-if="openTab == 'AddSkateparkPage'" @SetPage='SetPage($event)' @IsLoggedIn='IsLoggedIn()'/>
+  </div>
 </template>
 
 <script>
@@ -70,4 +72,17 @@ export default {
 </script>
 
 <style lang="scss">
+  .page {
+        animation: fadeInAnimation ease .5s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+    }
+    @keyframes fadeInAnimation {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
 </style>

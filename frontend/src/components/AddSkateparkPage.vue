@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="addFade">
     <button
         @click="SetPage('GetSkateparksPage')"
         class="mt-4 px-2 ml-2 w-15 leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-gray-900 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center items-center font-medium focus:outline-none"
@@ -163,14 +163,28 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.imagePreviewWrapper {
-    width: 250px;
-    height: 250px;
-    display: block;
-    cursor: pointer;
-    margin: 0 auto 30px;
-    background-size: cover;
-    background-position: center center;
-}
+    .imagePreviewWrapper {
+        width: 250px;
+        height: 250px;
+        display: block;
+        cursor: pointer;
+        margin: 0 auto 30px;
+        background-size: cover;
+        background-position: center center;
+    }
+
+    .addFade {
+            animation: fadeInAnimation ease .6s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+            100% {
+            opacity: 1;
+        }
+    }
 
 </style>
