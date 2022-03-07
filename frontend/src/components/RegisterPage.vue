@@ -21,6 +21,7 @@
                         placeholder="Email address"
                     />
                     <input
+                        id="password"
                         type="password"
                         name="password"
                         v-bind:value="formData.password"
@@ -28,6 +29,8 @@
                         class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                         placeholder="Password"
                     />
+                    <label for="password" v-if="passwordReqOpen === false" class="text-gray-500 text-xs mt-2 px-1">Password Requirements: <a class="text-blue-500" @click="passwordReq">Find Out More</a></label>
+                    <label for="password" v-if="passwordReqOpen === true" class="text-gray-500 text-xs mt-2 px-1">Password Must Be At Least 6 Characters Minimum, And Contain At Least 1 Capital Letter, 1 Number, and 1 Symbol <a class="text-blue-500" @click="passwordReq">See Less</a></label>
                     <button
                         type="submit"
                         class="mt-4 px-4 py-3  leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center w-full justify-center items-center font-medium focus:outline-none"
@@ -62,6 +65,7 @@
                     password: '',
                 },
                 response: '',
+                passwordReqOpen: false,
             };
         },
         methods: {
@@ -69,19 +73,21 @@
                 this.$emit('SetPage', page);
             },
             submitForm() {
-                axios.post('http://192.168.1.19:5000/api/users', this.formData)
+                axios.post('/api/users', this.formData)
                     .then((response) => {
-                        console.log(response);
                         this.response = 'User created successfully';
                         this.SetPage('LoginPage');
                     })
                     .catch((error) => {
-                        this.response = 'User Credentials are invalid or already in use';
+                        this.response = 'User Credentials Are Invalid Or User Already Exists!';
                         console.log(error);
                     });
                     if (!this.response) {
-                        this.response = 'User Credentials are invalid or already in use';
+                        this.response = 'Password Check Password Requirements';
                     }
+            },
+            passwordReq() {
+                this.passwordReqOpen = !this.passwordReqOpen;
             },
         },
     };

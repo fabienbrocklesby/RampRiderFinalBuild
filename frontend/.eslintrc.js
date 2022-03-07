@@ -20,5 +20,6 @@ module.exports = {
     'no-underscore-dangle': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-plusplus': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'new-parens': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-unused-vars': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
 };

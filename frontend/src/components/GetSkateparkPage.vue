@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div v-if="loading === false" class="fadeContent">
+    <div class="fadeContent">
+        <div v-if="loading === false" class="loadContentPage">
             <button
                 @click="SetPage('GetSkateparksPage')"
                 class="mt-4 px-2 ml-2 w-15 leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-gray-900 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center items-center font-medium focus:outline-none"
@@ -62,22 +62,30 @@
                             class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                             placeholder="Review Description / Body"
                             />
-                            <input
-                            type="number"
-                            name="rating"
-                            v-model="reviewData.rating"
-                            min="1"
-                            max="5"
-                            class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-                            placeholder="Rating / 5"
-                            />
-                            <span class="text-yellow-600">{{ reviewData.rating }}<i class="bi bi-star-fill ml-1"></i></span>
+                            <select
+                                class="select mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm text-gray-500"
+                                name="rating"
+                                v-model="reviewData.rating">
+                                    <option>Select A Rating Out Of 5</option>
+                                    <option value="1">1 / 5</option>
+                                    <option value="2">2 / 5</option>
+                                    <option value="3">3 / 5</option>
+                                    <option value="4">4 / 5</option>
+                                    <option value="5">5 / 5</option>
+                            </select>
+                            <span v-if="reviewData.rating !== 'Select A Rating Out Of 5'" class="text-yellow-600">{{ reviewData.rating }}<i class="bi bi-star-fill ml-1"></i></span>
                             <button
                                 type="submit"
-                                class="mt-4 px-4 py-3  leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center w-full justify-center items-center font-medium focus:outline-none"
+                                class="mt-4 px-4 py-3 leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center w-full justify-center items-center font-medium focus:outline-none"
                             >
                                 Post Review
                             </button>
+                            <div v-if="response === 'Invalid data' || response === 'Please Fill Out All Fields'" class="text-red-600 pt-2 pl-1 font-light text-sm ">
+                                <p>{{ response }}</p>
+                            </div>
+                            <div v-else class="pt-2 pl-1 font-light text-sm text-lime-500">
+                                <p>{{ response }}</p>
+                            </div>
                         </form>
                     </div>
                     <h1 name="title" class="text-2xl text-blue-600 font-semibold mt-20">Reviews</h1>
@@ -102,6 +110,32 @@
             </div>
         </div>
         <div v-if="loading === true">
+            <button
+                @click="SetPage('GetSkateparksPage')"
+                class="mt-4 px-2 ml-2 w-15 leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-gray-900 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center items-center font-medium focus:outline-none"
+            >Back</button>
+            <div class="container mx-auto p-4 bg-white">
+                <div class="w-full md:w-1/2 lg:w-2/3 mx-auto my-12">
+                    <header class="text-xl font-extrabold p-3 pl-2 mt-3 ml-4 bg-gray-400 rounded-lg w-20"></header>
+                    <header class="text-xl font-extrabold p-3 pl-2 mt-1 ml-4 bg-gray-400 rounded-lg w-64"></header>
+                    <div class="flex mt-2">
+                        <span class="inline-flex items-center px-4 ml-4 justify-center px-2 h-5 mr-2 text-xs font-bold leading-none text-gray-400 bg-gray-400 rounded-full">-----------------</span>
+                        <span class="inline-flex items-center px-4 justify-center px-2 h-5 mr-2 text-xs font-bold leading-none text-gray-400 bg-gray-400 rounded-full">-----</span>
+                    </div>
+                    <div class="flex flex-col mt-2">
+                        <div class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
+                            <img src="data;," alt="" class="fade w-full bg-gray-400 h-40 rounded-md">
+                        </div>
+                        <div class="px-4 mt-2 flex text-xl text-yellow-600">
+                            <header class="text-xl font-extrabold p-3 pl-2 mt-3 ml-4 bg-gray-400 rounded-lg w-20"></header>
+                        </div>
+                        <div class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
+                            <header class="text-xl font-extrabold p-3 pl-2 mt-3 ml-4 bg-gray-400 rounded-lg w-20"></header>
+                            <header class="text-xl font-extrabold p-3 pl-2 mt-1 ml-4 bg-gray-400 rounded-lg w-64"></header>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -121,10 +155,11 @@ export default {
             reviewData: {
                 title: '',
                 body: '',
-                rating: '',
+                rating: 'Select A Rating Out Of 5',
             },
             user: '',
             loading: true,
+            response: '',
         };
     },
     methods: {
@@ -134,13 +169,12 @@ export default {
         async likeSkatepark() {
             await axios({
                 method: 'post',
-                url: `http://192.168.1.19:5000/api/skateparks/like/${this.post._id}`,
+                url: `/api/skateparks/like/${this.post._id}`,
                 headers: {
                     Authorization: `Bearer ${window.localStorage.authToken}`,
                 },
             }).then((response) => {
                 this.liked = true;
-                console.log(response);
                 this.likes++;
             }).catch((error) => {
                 this.errors.push(error);
@@ -148,38 +182,49 @@ export default {
             });
         },
         createReview() {
-            console.log(this.reviewData.rating);
-            axios({
-                method: 'post',
-                url: `http://192.168.1.19:5000/api/reviews/${this.post._id}`,
-                headers: {
-                    Authorization: `Bearer ${window.localStorage.authToken}`,
-                },
-                data: {
-                    title: this.reviewData.title,
-                    body: this.reviewData.body,
-                    rating: this.reviewData.rating,
-                },
-                }).then((response) => {
-                    console.log(response);
-                    this.reviews.push(response.data);
-                })
-            .catch((error) => {
-                this.errors.push(error);
-            });
+            if (this.reviewData.title && this.reviewData.body && this.reviewData.rating) {
+                axios({
+                    method: 'post',
+                    url: `/api/reviews/${this.post._id}`,
+                    headers: {
+                        Authorization: `Bearer ${window.localStorage.authToken}`,
+                    },
+                    data: {
+                        title: this.reviewData.title,
+                        body: this.reviewData.body,
+                        rating: this.reviewData.rating,
+                    },
+                    }).then((response) => {
+                        this.reviewData = {
+                            title: '',
+                            body: '',
+                            rating: 'Select A Rating Out Of 5',
+                        };
+                        this.response = 'Review Created';
+                        this.reviews.push(response.data);
+                        this.reviews.reverse();
+                    })
+                .catch((error) => {
+                    this.errors.push(error);
+                    this.response = 'Invalid data';
+                });
+            } else {
+                this.response = 'Please Fill Out All Fields';
+            }
         },
     },
     async created() {
-        await axios.get(`http://192.168.1.19:5000/api/skateparks/single/${this.id}`)
+        await axios.get(`/api/skateparks/single/${this.id}`)
         .then((response) => {
             this.post = response.data.info;
             this.reviews = response.data.reviews;
+            this.reviews.reverse();
             this.likes = response.data.likes;
         })
         .catch((error) => {
             this.errors.push(error);
         });
-        await axios.get(`http://192.168.1.19:5000/api/users/getbyid/${this.post.user_id}`)
+        await axios.get(`/api/users/getbyid/${this.post.user_id}`)
             .then((response) => {
                 this.user = response.data;
             })
@@ -188,7 +233,7 @@ export default {
             });
         await axios({
             method: 'get',
-            url: `http://192.168.1.19:5000/api/skateparks/checklike/${this.post._id}`,
+            url: `/api/skateparks/checklike/${this.post._id}`,
             headers: {
                 Authorization: `Bearer ${window.localStorage.authToken}`,
             },
@@ -206,7 +251,7 @@ export default {
 
 <style>
     .fadeContent{
-        animation: fadeInAnimation ease .2s;
+        animation: fadeInAnimation ease 1.5s;
         animation-iteration-count: 1;
         animation-fill-mode: forwards;
     }
@@ -217,5 +262,11 @@ export default {
         100% {
             opacity: 1;
         }
+    }
+    .select{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding: 0.75rem;
     }
 </style>

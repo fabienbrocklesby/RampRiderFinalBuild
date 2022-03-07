@@ -12,6 +12,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "@sendgrid/mail": "^7.6.1",
+    "@vue/server-renderer": "^3.2.31",
     "axios": "^0.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.2",
@@ -24,7 +25,8 @@
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "vue": "^3.2.31"
   },
   "devDependencies": {
     "eslint": "^8.9.0",

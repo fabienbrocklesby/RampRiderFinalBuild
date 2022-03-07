@@ -1,7 +1,7 @@
 <template>
   <div class="page">
-    <Navbar @SetPage='SetPage($event)' :IsLoggedIn='this.isLoggedIn'/>
-    <LandingPage v-if="openTab == 'LandingPage'" />
+    <Navbar v-if="openTab !== 'LandingPage'" @SetPage='SetPage($event)' :IsLoggedIn='this.isLoggedIn'/>
+    <LandingPage v-if="openTab == 'LandingPage'" @SetPage='SetPage($event)'/>
     <RegisterPage v-if="openTab == 'RegisterPage'" @SetPage='SetPage($event)' />
     <LoginPage v-if="openTab == 'LoginPage'" @IsLoggedIn='IsLoggedIn()' @SetPage='SetPage($event)'/>
     <ForgotPasswordPage v-if="openTab == 'ForgotPasswordPage'" @SetPage='SetPage($event)' />
@@ -61,18 +61,23 @@ export default {
       this.postId = id;
     },
   },
-  created() {
+  async created() {
     if (window.localStorage.authToken) {
       this.isLoggedIn = true;
     } else {
       this.isLoggedIn = false;
+    }
+    if (this.isLoggedIn === true) {
+      this.openTab = 'GetSkateparksPage';
+    } else {
+      this.openTab = 'LandingPage';
     }
   },
 };
 </script>
 
 <style lang="scss">
-  .page {
+    .page {
         animation: fadeInAnimation ease .5s;
         animation-iteration-count: 1;
         animation-fill-mode: forwards;

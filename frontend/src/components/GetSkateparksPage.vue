@@ -120,9 +120,8 @@ export default {
         FilterByCategory(category) {
             this.category = category;
             if (category === 'All Categories') {
-                axios.get('http://192.168.1.19:5000/api/skateparks')
+                axios.get('/api/skateparks')
                 .then((response) => {
-                    console.log(response);
                     this.posts = response.data;
                     this.posts.reverse();
                 })
@@ -132,7 +131,7 @@ export default {
             } else {
                 axios({
                     method: 'get',
-                    url: `http://192.168.1.19:5000/api/skateparks/category/${category}`,
+                    url: `/api/skateparks/category/${category}`,
                 })
                 .then((response) => {
                     this.posts = response.data;
@@ -146,9 +145,8 @@ export default {
         FilterByLocation(location) {
             this.location = location;
             if (location === 'All Regions') {
-                axios.get('http://192.168.1.19:5000/api/skateparks')
+                axios.get('/api/skateparks')
                 .then((response) => {
-                    console.log(response);
                     this.posts = response.data;
                     this.posts.reverse();
                 })
@@ -158,15 +156,13 @@ export default {
             } else {
                 axios({
                     method: 'post',
-                    url: 'http://192.168.1.19:5000/api/skateparks/location',
+                    url: '/api/skateparks/location',
                     data: {
                         location,
                     },
                 })
                 .then((response) => {
-                    console.log(response);
                     this.posts = response.data;
-                    console.log(this.posts);
                     this.posts.reverse();
                 })
                 .catch((error) => {
@@ -177,7 +173,7 @@ export default {
     },
 
     created() {
-        axios.get('http://192.168.1.19:5000/api/skateparks')
+        axios.get('/api/skateparks')
         .then((response) => {
             this.posts = response.data;
             this.posts.reverse();

@@ -52,7 +52,7 @@ const skateparkSchema = Joi.object({
 
 const reviewSchema = Joi.object({
   title: Joi.string().max(40).required(),
-  body: Joi.string().min(10).max(240).required(),
+  body: Joi.string().min(5).max(240).required(),
   rating: Joi.number().min(1).max(5).required(),
 });
 

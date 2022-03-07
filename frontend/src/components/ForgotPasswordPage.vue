@@ -61,7 +61,7 @@
                     this.response = 'Please fill in all fields';
                 } else {
                     try {
-                        const response = await axios.post('http://192.168.1.19:5000/api/users/forgot', this.formData);
+                        const response = await axios.post('/api/users/forgot', this.formData);
                         if (response.data.message === 'Token has been sent to your email') {
                             this.response = 'Verification Code Has Been Sent To Your Email';
                             this.$emit('SetPage', 'UpdatePasswordPage');

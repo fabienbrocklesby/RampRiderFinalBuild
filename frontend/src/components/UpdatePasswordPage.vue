@@ -65,7 +65,7 @@
                     this.response = 'Please fill in all fields';
                 } else {
                     try {
-                        const response = await axios.post('http://192.168.1.19:5000/api/users/update', this.formData);
+                        const response = await axios.post('/api/users/update', this.formData);
                         if (response.data.message === 'Password has been updated') {
                             this.response = 'Password Has Been Succesfully Updated';
                             this.$emit('SetPage', 'LoginPage');

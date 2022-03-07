@@ -73,7 +73,6 @@ const loginUser = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
-
   const user = await User.findOne({ email });
 
   if (user) {
@@ -83,8 +82,8 @@ const forgotPassword = async (req, res) => {
     user.save();
 
     const msg = {
-      to: 'fabienbrocklesby@icloud.com',
-      from: 'fabienbrocklesby@icloud.com',
+      to: email,
+      from: 'support@ramprider.com',
       subject: 'Sending with SendGrid is Fun',
       templateId: 'd-11fa458d02ff460cae0548f86dd9c9da',
       dynamicTemplateData: {
@@ -106,7 +105,7 @@ const forgotPassword = async (req, res) => {
     res.status(400).json({
       message: 'No user found',
     });
-    throw new Error('User does not exist');
+    // throw new Error('User does not exist');
   }
 };
 

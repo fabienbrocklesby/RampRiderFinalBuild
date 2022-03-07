@@ -1,7 +1,7 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const bodyParser = require('body-parser');
 
 const { errorHandler } = require('./middleware/errorMiddleware');
@@ -18,12 +18,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
-app.use('/', express.static(path.join(__dirname, '../frontend/dist/')));
-app.use('/dist', express.static(path.join(__dirname, '../landingpage/dist')));
 
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/skateparks', require('./routes/skateparkRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
+
+// Serve frontend
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, './', 'views', 'index.html')));
 
 app.use(errorHandler);
 
