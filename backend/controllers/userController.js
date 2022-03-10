@@ -20,7 +20,8 @@ const registerUser = async (req, res) => {
 
   if (userExists) {
     res.status(400);
-    throw new Error('User already exists');
+    res.json('User already exists');
+    return false;
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -41,7 +42,8 @@ const registerUser = async (req, res) => {
       });
   } else {
     res.status(400);
-    throw new Error('Invalid user data');
+    res.json('Invalid user data');
+    return false;
   }
 };
 
@@ -51,9 +53,9 @@ const loginUser = async (req, res) => {
   await loginSchema.validateAsync(req.body);
 
   const user = await User.findOne({ email });
-  const token = generateToken(user._id);
 
   if (user && (await bcrypt.compare(password, user.password))) {
+    const token = generateToken(user._id);
     res.status(201)
       .json({
         message: 'User has been logged in',
@@ -63,11 +65,10 @@ const loginUser = async (req, res) => {
         token,
       });
   } else {
-    res.status(400)
-      .json({
-        message: 'Invalid credentials',
-      });
-    throw new Error('Invalid credentials');
+    res.status(400);
+    res.json({
+      error: 'Invalid credentials',
+    });
   }
 };
 
@@ -105,7 +106,6 @@ const forgotPassword = async (req, res) => {
     res.status(400).json({
       message: 'No user found',
     });
-    // throw new Error('User does not exist');
   }
 };
 
@@ -133,7 +133,8 @@ const updatePassword = async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error('Invalid token');
+    res.json('Invalid token');
+    return false;
   }
 };
 
@@ -159,7 +160,8 @@ const getId = async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error('User does not exist');
+    res.json('User does not exist');
+    return false;
   }
 };
 

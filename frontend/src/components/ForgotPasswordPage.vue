@@ -12,6 +12,8 @@
                         name="email"
                         v-bind:value="formData.email"
                         @input="this.formData.email = $event.target.value"
+                        pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
+                        required
                         class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                         placeholder="Email address"
                     />
@@ -29,7 +31,7 @@
                     </div>
                     <div class="flex flex-col items-center mt-5">
                         <p class="mt-1 text-xs font-light text-gray-500">
-                            <a class="ml-1 font-medium text-blue-400" @click="SetPage('RegisterPage')">Create New Account</a>
+                            <a class="ml-1 font-medium text-blue-400" @click="SetPage('RegisterPage')" style="cursor: pointer;">Create New Account</a>
                         </p>
                     </div>
                 </form>

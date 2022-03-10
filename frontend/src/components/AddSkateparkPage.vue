@@ -7,21 +7,23 @@
     <div class="container mx-auto p-4 bg-white">
         <div class="w-full md:w-1/2 lg:w-1/3 mx-auto my-12">
             <h1 class="text-lg font-bold">Add A Skatepark / Street Spot</h1>
-            <div class="bg-slate-300 w-full">
-                <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Select Image Of Skatepark / Street Spot</label>
+            <div class="bg-slate-300 w-full mt-8">
                 <input
                 ref="fileInput"
-                class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm border border-solid border-gray-300"
+                value=""
+                class="inputfile"
                 id="formFile"
+                name="formFile"
                 type="file"
                 @input="pickFile()">
+                <label for="formFile" class="px-12 py-3 mt-4 w-64 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm border border-solid border-gray-300">Choose an Image</label>
 
                 <div class="mt-4 justify-start">
                     <img :src="previewImage" class="w-3/4 rounded-lg" />
                     <h1 class="text-green-500 mt-1" v-if="uploadMessage === 'Image Selected'">{{ uploadMessage }}</h1>
                     <h1 class="text-red-600 mt-1" v-if="uploadMessage === 'Please select an image'">{{ uploadMessage }}</h1>
                     <div v-if="submitted === false">
-                        <button @click="submitImage()" class="mt-4 px-4 py-3 leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center w-1/2 justify-center items-center font-medium focus:outline-none">Select Image</button>
+                        <button @click="submitImage()" class="mt-2 px-2 py-2 leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center w-40 justify-center items-center font-medium focus:outline-none">Select Image</button>
                     </div>
                 </div>
             </div>
@@ -37,14 +39,14 @@
                     <input id="directions" type="text" v-model="directions" placeholder="Address Or Area Description" class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" required>
                 </div>
                 <div>
-                    <select name="category" v-model="category" class="select mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" id="size">
+                    <select name="category" v-model="category" required class="select mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" id="size">
                         <option>Select a category</option>
                         <option value="Skatepark">Skatepark</option>
                         <option value="Spot">Street Spot</option>
                     </select>
                 </div>
                 <div>
-                    <select name="size" v-model="size" class="select mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" id="size">
+                    <select name="size" v-model="size" required class="select mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" id="size">
                         <option>Select a size</option>
                         <option value="Small">Small</option>
                         <option value="Medium">Medium</option>
@@ -55,7 +57,8 @@
                     <select
                         id="location"
                         class="select mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-                        v-model="location">
+                        v-model="location"
+                        required>
                         <option>Select a region</option>
                         <option>Northland, New Zealand</option>
                         <option>Auckland, New Zealand</option>
@@ -90,9 +93,8 @@ import axios from 'axios';
 export default {
   data() {
     return {
-        previewImage: null,
+        previewImage: '',
         imageUrl: '',
-        imageName: '',
         name: '',
         size: 'Select a size',
         description: '',
@@ -113,7 +115,6 @@ export default {
             this.uploadMessage = '';
             const input = this.$refs.fileInput;
             const file = input.files;
-            this.imageName = input.files.item(0).name;
             if (file && file[0]) {
             const reader = new FileReader;
             reader.onload = (e) => {
@@ -124,7 +125,7 @@ export default {
             }
         },
         submitImage() {
-            if (this.imageName === '') {
+            if (this.previewImage === '') {
                 this.uploadMessage = 'Please select an image';
             } else {
                 this.submitted = true;
@@ -135,7 +136,7 @@ export default {
                     data: {
                         file: this.previewImage,
                         upload_preset: 'b9ej8dr5',
-                        public_id: this.imageName,
+                        public_id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
                         api_key: process.env.VUE_APP_API_KEY,
                     },
                     }).then((response) => {
@@ -176,10 +177,27 @@ export default {
             }
         },
     },
+    created() {
+        this.previewImage = '';
+        this.imageUrl = '';
+    },
 };
 </script>
 
 <style scoped lang="scss">
+    .inputfile {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .inputfile + label {
+        cursor: pointer; /* "hand" cursor */
+    }
+
     .imagePreviewWrapper {
         width: 250px;
         height: 250px;

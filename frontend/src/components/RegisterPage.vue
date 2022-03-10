@@ -7,14 +7,17 @@
                     <input
                         type="text"
                         name="name"
+                        required
                         v-bind:value="formData.name"
                         @input="this.formData.name = $event.target.value"
                         class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                         placeholder="username"
                     />
                     <input
-                        type="email"
+                        type="text"
                         name="email"
+                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                        required
                         v-bind:value="formData.email"
                         @input="this.formData.email = $event.target.value"
                         class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
@@ -24,13 +27,16 @@
                         id="password"
                         type="password"
                         name="password"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
+                        title="Must contain at least one number, one symbol, and one uppercase and lowercase letter, and at least 8 or more characters"
+                        required
                         v-bind:value="formData.password"
                         @input="this.formData.password = $event.target.value"
                         class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                         placeholder="Password"
                     />
-                    <label for="password" v-if="passwordReqOpen === false" class="text-gray-500 text-xs mt-2 px-1">Password Requirements: <a class="text-blue-500" @click="passwordReq">Find Out More</a></label>
-                    <label for="password" v-if="passwordReqOpen === true" class="text-gray-500 text-xs mt-2 px-1">Password Must Be At Least 6 Characters Minimum, And Contain At Least 1 Capital Letter, 1 Number, and 1 Symbol <a class="text-blue-500" @click="passwordReq">See Less</a></label>
+                    <label for="password" v-if="passwordReqOpen === false" class="text-gray-500 text-xs mt-2 px-1">Password Requirements: <a class="text-blue-500" @click="passwordReq" style="cursor: pointer;">Find Out More</a></label>
+                    <label for="password" v-if="passwordReqOpen === true" class="text-gray-500 text-xs mt-2 px-1">Must contain at least one number, one symbol, and one uppercase and lowercase letter, and at least 8 or more characters<a class="text-blue-500" style="cursor: pointer;" @click="passwordReq">See Less</a></label>
                     <button
                         type="submit"
                         class="mt-4 px-4 py-3  leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center w-full justify-center items-center font-medium focus:outline-none"
@@ -42,7 +48,7 @@
                     </div>
                     <div class="flex flex-col items-center mt-5">
                         <p class="mt-1 text-xs font-light text-gray-500">
-                        Registered already?<a class="ml-1 font-medium text-blue-400" @click="SetPage('LoginPage')">Sign in now</a>
+                        Registered already?<a class="ml-1 font-medium text-blue-400" @click="SetPage('LoginPage')" style="cursor: pointer;">Sign in now</a>
                         </p>
                     </div>
                 </form>
@@ -73,18 +79,19 @@
                 this.$emit('SetPage', page);
             },
             submitForm() {
-                axios.post('/api/users', this.formData)
+                axios.post('/api/users', {
+                    name: this.formData.name,
+                    email: this.formData.email.toLowerCase(),
+                    password: this.formData.password,
+                })
                     .then((response) => {
                         this.response = 'User created successfully';
                         this.SetPage('LoginPage');
                     })
                     .catch((error) => {
-                        this.response = 'User Credentials Are Invalid Or User Already Exists!';
+                        this.response = 'User Already Exists!';
                         console.log(error);
                     });
-                    if (!this.response) {
-                        this.response = 'Password Check Password Requirements';
-                    }
             },
             passwordReq() {
                 this.passwordReqOpen = !this.passwordReqOpen;

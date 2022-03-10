@@ -24,7 +24,7 @@
                 <!--Left Col-->
                 <div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
                     <h1 class="my-4 text-3xl md:text-5xl text-purple-800 font-bold leading-tight text-center md:text-left slide-in-bottom-h1">RampRider Beta Out Now!</h1>
-                    <span class="leading-normal text-base md:text-2xl text-center mb-8 md:text-left slide-in-bottom-subtitle"><p>Do you spend hours at the skatepark shredding up your shoes? It's time to amp up your riding experience with RampRider! <a v-if="open === false" @click="about()" class="text-purple-800">Learn More</a><a v-if="open === true" @click="about()" class="text-purple-800">See Less</a></p></span>
+                    <span class="leading-normal text-base md:text-2xl text-center mb-8 md:text-left slide-in-bottom-subtitle"><p>Do you spend hours at the skatepark shredding up your shoes? It's time to amp up your riding experience with RampRider! <a v-if="open === false" @click="about()" class="text-purple-800" style="cursor: pointer;">Learn More</a><a v-if="open === true" @click="about()" class="text-purple-800">See Less</a></p></span>
                     <span v-if="open === true" class="leading-normal text-base md:text-2xl text-center mb-8 md:text-left slide-in-bottom-context"><p>Ramp Rider allows you to find skateparks or street spots nearby (Or anywhere!), write reviews, and even share a skatepark or spot of your own to the world! Shred more places with RampRider!</p></span>
 
                     <p class="text-blue-400 font-bold pb-8 lg:pb-6 text-center md:text-left fade-in">Give it a try:</p>

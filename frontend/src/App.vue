@@ -1,15 +1,20 @@
 <template>
   <div class="page">
-    <Navbar v-if="openTab !== 'LandingPage'" @SetPage='SetPage($event)' :IsLoggedIn='this.isLoggedIn'/>
-    <LandingPage v-if="openTab == 'LandingPage'" @SetPage='SetPage($event)'/>
-    <RegisterPage v-if="openTab == 'RegisterPage'" @SetPage='SetPage($event)' />
-    <LoginPage v-if="openTab == 'LoginPage'" @IsLoggedIn='IsLoggedIn()' @SetPage='SetPage($event)'/>
-    <ForgotPasswordPage v-if="openTab == 'ForgotPasswordPage'" @SetPage='SetPage($event)' />
-    <UpdatePasswordPage v-if="openTab == 'UpdatePasswordPage'" @SetPage='SetPage($event)' />
-    <ProfilePage v-if="openTab == 'ProfilePage'" @SetPage='SetPage($event)' @Logout='IsLoggedIn()' />
-    <GetSkateparksPage v-if="openTab == 'GetSkateparksPage'" @SetPage='SetPage($event)' @FindMore="FindSkateparkById($event)" :IsLoggedIn='this.isLoggedIn'/>
-    <GetSkateparkPage v-if="openTab == 'GetSkateparkPage'" @SetPage='SetPage($event)' :id="this.postId"/>
-    <AddSkateparkPage v-if="openTab == 'AddSkateparkPage'" @SetPage='SetPage($event)' @IsLoggedIn='IsLoggedIn()'/>
+    <div class="app">
+      <Navbar v-if="openTab !== 'LandingPage'" @SetPage='SetPage($event)' :IsLoggedIn='this.isLoggedIn'/>
+      <LandingPage v-if="openTab == 'LandingPage'" @SetPage='SetPage($event)'/>
+      <RegisterPage v-if="openTab == 'RegisterPage'" @SetPage='SetPage($event)' />
+      <LoginPage v-if="openTab == 'LoginPage'" @IsLoggedIn='IsLoggedIn()' @SetPage='SetPage($event)'/>
+      <ForgotPasswordPage v-if="openTab == 'ForgotPasswordPage'" @SetPage='SetPage($event)' />
+      <UpdatePasswordPage v-if="openTab == 'UpdatePasswordPage'" @SetPage='SetPage($event)' />
+      <ProfilePage v-if="openTab == 'ProfilePage'" @SetPage='SetPage($event)' @Logout='IsLoggedIn()' />
+      <GetSkateparksPage v-if="openTab == 'GetSkateparksPage'" @SetPage='SetPage($event)' @FindMore="FindSkateparkById($event)" :IsLoggedIn='this.isLoggedIn'/>
+      <GetSkateparkPage v-if="openTab == 'GetSkateparkPage'" @SetPage='SetPage($event)' :id="this.postId"/>
+      <AddSkateparkPage v-if="openTab == 'AddSkateparkPage'" @SetPage='SetPage($event)' @IsLoggedIn='IsLoggedIn()'/>
+    </div>
+    <div class="rotate-device-warning shadow-lg">
+      <span class="flex"><b><i class="bi bi-phone text-4xl"></i></b><p class="mt-2"><b>Mobile users:</b> For the best experience, please hold your device in the portrait orientation.</p></span>
+    </div>
   </div>
 </template>
 
@@ -90,4 +95,33 @@ export default {
             opacity: 1;
         }
     }
-</style>
+
+    .rotate-device-warning {
+      opacity: 0;
+    }
+
+    @media screen and (pointer: coarse) and (min-width: 320px) and (max-width: 812px) and (orientation: portrait) {
+        .rotate-device-warning {
+            display: none;
+            opacity: 0;
+        }
+    }
+
+    @media screen and (pointer: coarse) and (min-width: 320px) and (max-width: 812px) and (orientation: landscape) {
+      .app {
+        display: none;
+      }
+      .rotate-device-warning {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        opacity: 1;
+        display: block;
+        width: 100%;
+        background-color: rgb(249 250 251);
+        padding: 60px 20px 60px 20px;
+      }
+    }
+  </style>

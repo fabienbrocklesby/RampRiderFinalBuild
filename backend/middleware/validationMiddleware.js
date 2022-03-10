@@ -2,7 +2,7 @@ const Joi = require('joi');
 const passwordComplexity = require('joi-password-complexity');
 
 const complexityOptions = {
-  min: 6,
+  min: 8,
   max: 50,
   lowerCase: 1,
   upperCase: 1,
@@ -18,7 +18,6 @@ const registerSchema = Joi.object({
     .required()
     .regex(/^\s*\w+(?:[^\w,]+\w+)*[^,\w]*$/),
   email: Joi.string()
-    .email({ minDomainSegments: 2 })
     .lowercase()
     .required(),
   password: passwordComplexity(complexityOptions).required(),
@@ -26,7 +25,6 @@ const registerSchema = Joi.object({
 
 const loginSchema = Joi.object({
   email: Joi.string()
-    .email({ minDomainSegments: 2 })
     .lowercase()
     .required(),
   password: Joi.string()
@@ -52,7 +50,7 @@ const skateparkSchema = Joi.object({
 
 const reviewSchema = Joi.object({
   title: Joi.string().max(40).required(),
-  body: Joi.string().min(5).max(240).required(),
+  body: Joi.string().max(240).required(),
   rating: Joi.number().min(1).max(5).required(),
 });
 

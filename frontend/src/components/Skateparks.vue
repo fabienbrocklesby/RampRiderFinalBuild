@@ -1,7 +1,7 @@
 <template>
     <center>
         <div class="mt-10 fade">
-            <div v-for="post in posts" :key="post.id" class="shadow text-left bg-white mb-14 ROUNDED max-w-4xl">
+            <div v-for="post in posts" :key="post.id" style="cursor: pointer;" @click="this.$emit('FindMore', post._id)" class="shadow text-left bg-white mb-14 ROUNDED max-w-4xl">
                 <img
                     :src="post.image"
                     alt=""

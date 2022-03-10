@@ -54,6 +54,7 @@
                             v-model="reviewData.title"
                             class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                             placeholder="Review Title"
+                            required
                             />
                             <input
                             type="text"
@@ -61,11 +62,13 @@
                             v-model="reviewData.body"
                             class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                             placeholder="Review Description / Body"
+                            required
                             />
                             <select
                                 class="select mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm text-gray-500"
                                 name="rating"
-                                v-model="reviewData.rating">
+                                v-model="reviewData.rating"
+                                required>
                                     <option>Select A Rating Out Of 5</option>
                                     <option value="1">1 / 5</option>
                                     <option value="2">2 / 5</option>

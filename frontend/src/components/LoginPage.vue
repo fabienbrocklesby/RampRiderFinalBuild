@@ -8,9 +8,11 @@
                         type="email"
                         name="email"
                         v-bind:value="formData.email"
+                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
                         @input="this.formData.email = $event.target.value"
                         class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                         placeholder="Email address"
+                        required
                     />
                     <input
                         type="password"
@@ -19,10 +21,13 @@
                         @input="this.formData.password = $event.target.value"
                         class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                         placeholder="Password"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
+                        title="Must contain at least one number, one symbol, and one uppercase and lowercase letter, and at least 8 or more characters"
+                        required
                     />
                     <div class="flex flex-col mt-5">
                         <p class="mt-1 ml-4 text-xs font-light text-gray-500">
-                        <a class="ml-1 font-medium text-blue-400" @click="SetPage('ForgotPasswordPage')">Forgot Password?</a>
+                        <a class="ml-1 font-medium text-blue-400" @click="SetPage('ForgotPasswordPage')" style="cursor: pointer;">Forgot Password?</a>
                         </p>
                     </div>
                     <button
@@ -31,15 +36,15 @@
                     >
                         Log In
                     </button>
-                    <div v-if="response == 'Invalid credentials' || response == 'Please fill in all fields'" class="text-red-600 pt-2 pl-1 font-light text-sm">
+                    <div v-if="response == 'Incorrect email or password. Try again or click Forgot password to reset it.' || response == 'Please fill in all fields'" class="text-red-600 pt-2 pl-1 font-light text-sm">
                         <p>{{ response }}</p>
                     </div>
-                    <div v-if="response == 'User has been logged in'" class="pt-2 pl-1 font-light text-sm">
+                    <div v-else class="pt-2 pl-1 font-light text-sm">
                         <p>{{ response }}</p>
                     </div>
                     <div class="flex flex-col items-center mt-5">
                         <p class="mt-1 text-xs font-light text-gray-500">
-                        Haven't Registered Yet?<a class="ml-1 font-medium text-blue-400" @click="SetPage('RegisterPage')">Register Now</a>
+                        Haven't Registered Yet?<a class="ml-1 font-medium text-blue-400" @click="SetPage('RegisterPage')" style="cursor: pointer;">Register Now</a>
                         </p>
                     </div>
                 </form>
@@ -67,24 +72,25 @@
             SetPage(page) {
                 this.$emit('SetPage', page);
             },
-            async submitForm() {
+            submitForm() {
                 if (!this.formData.email || !this.formData.password) {
                     this.response = 'Please fill in all fields';
                 } else {
-                    try {
-                        const response = await axios.post('/api/users/login', this.formData);
-                        this.response = response.data.message;
-                        if (response.data.message === 'User has been logged in') {
+                    axios.post('/api/users/login', {
+                        email: this.formData.email.toLowerCase(),
+                        password: this.formData.password,
+                    }).then((response) => {
+                        if (response.data.message) {
                             localStorage.setItem('authToken', response.data.token);
+                            this.response = response.data.message;
                             this.$emit('IsLoggedIn', true);
                             this.$emit('SetPage', 'GetSkateparksPage');
                         } else {
-                            console.log(this.response);
+                            this.response = 'Incorrect email or password. Try again or click Forgot password to reset it.';
                         }
-                    } catch (error) {
-                        console.log(error);
-                        this.response = error.response.data.message;
-                    }
+                    }).catch((error) => {
+                        this.response = 'Incorrect email or password. Try again or click Forgot password to reset it.';
+                    });
                 }
             },
         },

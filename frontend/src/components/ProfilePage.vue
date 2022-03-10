@@ -15,11 +15,18 @@
                             <h1 class="text-2xl font-light" id="email" name="email">{{ posts.email }}</h1>
                         </div>
 
-                        <div class="px-4 py-3 mt-8 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
+                        <div style="cursor: pointer;" @click="SetPage('ForgotPasswordPage')" class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
+                            <h1
+                            class="text-xl font-normal"
+                            id="email" name="email"
+                            >Reset Password</h1>
+                        </div>
+
+                        <div class="px-4 py-3 mt-8 w-full rounded-md border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
                             <button
                                 type="submit"
                                 @click="Logout()"
-                                class=" px-4 py-3 leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-red-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center w-24 justify-center font-medium focus:outline-none"
+                                class="px-6 py-3 leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-red-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center font-medium focus:outline-none"
                             >
                                 Logout
                             </button>
@@ -75,6 +82,9 @@
                 window.localStorage.removeItem('authToken');
                 this.$emit('SetPage', 'LandingPage');
                 this.$emit('Logout', 'Logout');
+            },
+            SetPage(page) {
+                this.$emit('SetPage', page);
             },
         },
         async created() {
