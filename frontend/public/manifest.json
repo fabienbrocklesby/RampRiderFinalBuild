@@ -2,8 +2,8 @@
    "name": "Ramp Rider",
    "short_name": "Ramp Rider",
    "theme_color": "#111827",
-   "scope": "./",
-   "start_url": "./",
+   "scope": "/",
+   "start_url": "/",
    "icons": [
         {
             "src": "./img/icons/icon-192x192.png",
